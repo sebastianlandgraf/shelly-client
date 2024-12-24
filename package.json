@@ -10,8 +10,7 @@
     "lint": "eslint 'src/**/*.ts'",
     "format": "prettier --write 'src/**/*.ts'",
     "prepare": "yarn build",
-    "publish": "semantic-release",
-    "local-prepare": "husky install"
+    "publish": "semantic-release"
   },
   "repository": {
     "type": "git",
