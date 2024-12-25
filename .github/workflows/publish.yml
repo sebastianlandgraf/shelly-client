@@ -35,10 +35,14 @@ jobs:
           registry-url: "https://npm.pkg.github.com/"
           scope: "@sebastianlandgraf"
 
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} >> .env
+          cat .env
+
       - name: Install Dependencies
         run: yarn install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run semantic-release
         run: yarn publish

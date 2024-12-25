@@ -22,10 +22,15 @@ jobs:
           node-version: 22
           cache: 'yarn'
 
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} >> .env
+          cat .env
+
       - name: Install dependencies
         run: yarn install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Test code
         run: yarn lint
