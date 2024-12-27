@@ -7,61 +7,61 @@ import {
   ShellyGetComponentsResponse,
 } from '@sebastianlandgraf/shelly-models';
 
-export enum ShellyRequestType {
-  'Shelly_GetStatus' = 'Shelly.GetStatus',
-  'Shelly_GetConfig' = 'Shelly.GetConfig',
-  'Shelly_ListMethods' = 'Shelly.ListMethods',
-  'Shelly_CheckForUpdate' = 'Shelly.CheckForUpdate',
-  'Shelly_Update' = 'Shelly.Update',
-  'Shelly_FactoryReset' = 'Shelly.FactoryReset',
-  'Shelly_ResetWiFiConfig' = 'Shelly.ResetWiFiConfig',
-  'Shelly_Reboot' = 'Shelly.Reboot',
-  'Shelly_GetComponents' = 'Shelly.GetComponents',
+export enum ShellyCommand {
+  GetStatus = 'Shelly.GetStatus',
+  GetConfig = 'Shelly.GetConfig',
+  ListMethods = 'Shelly.ListMethods',
+  CheckForUpdate = 'Shelly.CheckForUpdate',
+  Update = 'Shelly.Update',
+  FactoryReset = 'Shelly.FactoryReset',
+  ResetWiFiConfig = 'Shelly.ResetWiFiConfig',
+  Reboot = 'Shelly.Reboot',
+  GetComponents = 'Shelly.GetComponents',
 }
 
 export type ShellyCommandTypes = {
-  [ShellyRequestType.Shelly_GetConfig]: {
+  [ShellyCommand.GetConfig]: {
     request: undefined;
     response: ShellyGetConfigResponse;
   };
 
-  [ShellyRequestType.Shelly_GetStatus]: {
+  [ShellyCommand.GetStatus]: {
     request: undefined;
     response: ShellyGetStatusResponse;
   };
 
-  [ShellyRequestType.Shelly_ListMethods]: {
+  [ShellyCommand.ListMethods]: {
     request: undefined;
     response: {
       methods: string[];
     };
   };
-  [ShellyRequestType.Shelly_CheckForUpdate]: {
+  [ShellyCommand.CheckForUpdate]: {
     request: unknown;
     response: ShellyCheckForUpdateResponse;
   };
 
-  [ShellyRequestType.Shelly_Update]: {
+  [ShellyCommand.Update]: {
     request: { stage: string };
     response: null;
   };
 
-  [ShellyRequestType.Shelly_FactoryReset]: {
+  [ShellyCommand.FactoryReset]: {
     request: undefined;
     response: null;
   };
 
-  [ShellyRequestType.Shelly_ResetWiFiConfig]: {
+  [ShellyCommand.ResetWiFiConfig]: {
     request: undefined;
     response: null;
   };
 
-  [ShellyRequestType.Shelly_Reboot]: {
+  [ShellyCommand.Reboot]: {
     request: undefined;
     response: null;
   };
 
-  [ShellyRequestType.Shelly_GetComponents]: {
+  [ShellyCommand.GetComponents]: {
     request: ShellyGetComponentsRequest;
     response: ShellyGetComponentsResponse;
   };

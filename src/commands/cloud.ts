@@ -4,24 +4,24 @@ import {
   CloudSetConfigRequest,
 } from '@sebastianlandgraf/shelly-models';
 
-export enum CloudRequestType {
-  'Cloud_GetStatus' = 'Cloud.GetStatus',
-  'Cloud_GetConfig' = 'Cloud.GetConfig',
-  'Cloud_SetConfig' = 'Cloud.SetConfig',
+export enum CloudCommand {
+  GetStatus = 'Cloud.GetStatus',
+  GetConfig = 'Cloud.GetConfig',
+  SetConfig = 'Cloud.SetConfig',
 }
 
 export type CloudCommandTypes = {
-  [CloudRequestType.Cloud_GetConfig]: {
+  [CloudCommand.GetConfig]: {
     request: unknown;
     response: CloudGetConfigResponse;
   };
 
-  [CloudRequestType.Cloud_GetStatus]: {
+  [CloudCommand.GetStatus]: {
     request: unknown;
     response: CloudGetStatusResponse;
   };
 
-  [CloudRequestType.Cloud_SetConfig]: {
+  [CloudCommand.SetConfig]: {
     request: CloudSetConfigRequest;
     response: CloudGetConfigResponse;
   };

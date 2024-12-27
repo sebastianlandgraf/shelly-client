@@ -9,60 +9,60 @@ import {
   SwitchMoveRequest,
 } from '@sebastianlandgraf/shelly-models';
 
-export enum CoverRequestType {
-  'Cover_GetStatus' = 'Cover.GetStatus',
-  'Cover_GetConfig' = 'Cover.GetConfig',
-  'Cover_SetConfig' = 'Cover.SetConfig',
-  'Cover_Open' = 'Cover.Open',
-  'Cover_Close' = 'Cover.Close',
-  'Cover_Stop' = 'Cover.Stop',
-  'Cover_GotoPosition' = 'Cover.GotoPosition',
-  'Cover_Calibrate' = 'Cover.Calibration',
-  'Cover_ResetCounters' = 'Cover.ResetCounters',
+export enum CoverCommand {
+  GetStatus = 'Cover.GetStatus',
+  GetConfig = 'Cover.GetConfig',
+  SetConfig = 'Cover.SetConfig',
+  Open = 'Cover.Open',
+  Close = 'Cover.Close',
+  Stop = 'Cover.Stop',
+  GotoPosition = 'Cover.GotoPosition',
+  Calibrate = 'Cover.Calibration',
+  ResetCounters = 'Cover.ResetCounters',
 }
 
 export type CoverCommandTypes = {
-  [CoverRequestType.Cover_GetConfig]: {
+  [CoverCommand.GetConfig]: {
     request: ComponentIdRequest;
     response: CoverGetConfigResponse;
   };
 
-  [CoverRequestType.Cover_GetStatus]: {
+  [CoverCommand.GetStatus]: {
     request: ComponentIdRequest;
     response: CoverGetStatusResponse;
   };
 
-  [CoverRequestType.Cover_SetConfig]: {
+  [CoverCommand.SetConfig]: {
     request: CoverSetConfigRequest;
     response: CoverGetConfigResponse;
   };
 
-  [CoverRequestType.Cover_Open]: {
+  [CoverCommand.Open]: {
     request: SwitchMoveRequest;
     response: null;
   };
 
-  [CoverRequestType.Cover_Close]: {
+  [CoverCommand.Close]: {
     request: SwitchMoveRequest;
     response: null;
   };
 
-  [CoverRequestType.Cover_Stop]: {
+  [CoverCommand.Stop]: {
     request: ComponentIdRequest;
     response: null;
   };
 
-  [CoverRequestType.Cover_GotoPosition]: {
+  [CoverCommand.GotoPosition]: {
     request: SwitchGotoPositionRequest;
     response: null;
   };
 
-  [CoverRequestType.Cover_ResetCounters]: {
+  [CoverCommand.ResetCounters]: {
     request: ComponentIdRequest;
     response: null;
   };
 
-  [CoverRequestType.Cover_Calibrate]: {
+  [CoverCommand.Calibrate]: {
     request: ComponentIdRequest;
     response: null;
   };

@@ -1,47 +1,41 @@
-import { BleRequestType, BleCommandTypes } from './ble.js';
-import { CoverCommandTypes, CoverRequestType } from './cover.js';
-import { InputCommandTypes, InputRequestType } from './input.js';
-import { KvsCommandTypes, KVSRequestType } from './kvs.js';
-import { ScriptCommandTypes, ScriptRequestType } from './script.js';
-import { ShellyCommandTypes, ShellyRequestType } from './shelly.js';
-import { SwitchCommandTypes, SwitchRequestType } from './switch.js';
+import { BleRequestCommand, BleCommandTypes } from './ble.js';
+import { CoverCommandTypes, CoverCommand } from './cover.js';
+import { InputCommandTypes, InputCommand } from './input.js';
+import { KvsCommandTypes, KvsCommand } from './kvs.js';
+import { ScriptCommandTypes, ScriptCommand } from './script.js';
+import { ShellyCommandTypes, ShellyCommand } from './shelly.js';
+import { SwitchCommand, SwitchRequestType } from './switch.js';
 import { SysCommandTypes, SysRequestType } from './sys.js';
-import { WifiRequestType, WifiCommandTypes } from './wifi.js';
+import { WifiCommand, WifiCommandTypes } from './wifi.js';
 
-export const Commands3 = {
-  ...BleRequestType,
-  ...WifiRequestType,
-  ...InputRequestType,
+export const DeviceCommand = {
+  ...BleRequestCommand,
+  ...WifiCommand,
+  ...InputCommand,
   ...SysRequestType,
-  ...CoverRequestType,
+  ...CoverCommand,
   ...SwitchRequestType,
-  ...ScriptRequestType,
-  ...KVSRequestType,
-  ...ShellyRequestType,
+  ...ScriptCommand,
+  ...KvsCommand,
+  ...ShellyCommand,
 };
 
-export type Commands4 = typeof Commands3;
-
-export type CommandTypes = BleCommandTypes &
+export type DeviceCommandTypes = BleCommandTypes &
   WifiCommandTypes &
   InputCommandTypes &
   SysCommandTypes &
   CoverCommandTypes &
-  SwitchCommandTypes &
+  SwitchCommand &
   ScriptCommandTypes &
   KvsCommandTypes &
   ShellyCommandTypes;
 
-export type RequestFunction<T extends keyof CommandTypes> = (
+export type RequestFunction<T extends keyof DeviceCommandTypes> = (
   method: T,
-  params: CommandTypes[T]['request'],
+  params: DeviceCommandTypes[T]['request'],
   ...args: unknown[]
-) => Promise<CommandTypes[T]['response'] | undefined>;
+) => Promise<DeviceCommandTypes[T]['response'] | undefined>;
 
 export interface RequestHandler {
-  request<T extends keyof CommandTypes>(
-    method: T,
-    params: CommandTypes[T]['request'],
-    ...args: unknown[]
-  ): Promise<CommandTypes[T]['response'] | undefined>;
+  request: RequestFunction<keyof DeviceCommandTypes>;
 }

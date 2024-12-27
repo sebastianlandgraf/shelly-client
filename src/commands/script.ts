@@ -14,70 +14,70 @@ import {
   WasRunningResponse,
 } from '@sebastianlandgraf/shelly-models';
 
-export enum ScriptRequestType {
-  'Script_GetStatus' = 'Script.GetStatus',
-  'Script_GetConfig' = 'Script.GetConfig',
-  'Script_SetConfig' = 'Script.SetConfig',
-  'Script_List' = 'Script.List',
-  'Script_Create' = 'Script.Create',
-  'Script_Delete' = 'Script.Delete',
-  'Script_Start' = 'Script.Start',
-  'Script_Stop' = 'Script.Stop',
-  'Script_PutCode' = 'Script.PutCode',
-  'Script_GetCode' = 'Script.GetCode',
-  'Script_Eval' = 'Script.Eval',
+export enum ScriptCommand {
+  GetStatus = 'Script.GetStatus',
+  GetConfig = 'Script.GetConfig',
+  SetConfig = 'Script.SetConfig',
+  List = 'Script.List',
+  Create = 'Script.Create',
+  Delete = 'Script.Delete',
+  Start = 'Script.Start',
+  Stop = 'Script.Stop',
+  PutCode = 'Script.PutCode',
+  GetCode = 'Script.GetCode',
+  Eval = 'Script.Eval',
 }
 
 export type ScriptCommandTypes = {
-  [ScriptRequestType.Script_GetConfig]: {
+  [ScriptCommand.GetConfig]: {
     request: ComponentIdRequest;
     response: ScriptGetConfigResponse;
   };
 
-  [ScriptRequestType.Script_GetStatus]: {
+  [ScriptCommand.GetStatus]: {
     request: ComponentIdRequest;
     response: ScriptGetStatusResponse;
   };
 
-  [ScriptRequestType.Script_SetConfig]: {
+  [ScriptCommand.SetConfig]: {
     request: ScriptSetConfigRequest;
     response: RestartRequiredResponse;
   };
 
-  [ScriptRequestType.Script_GetCode]: {
+  [ScriptCommand.GetCode]: {
     request: ScriptGetCodeRequest;
     response: ScriptGetCodeResponse;
   };
 
-  [ScriptRequestType.Script_List]: {
+  [ScriptCommand.List]: {
     request: undefined;
     response: ScriptListResponse;
   };
 
-  [ScriptRequestType.Script_Start]: {
+  [ScriptCommand.Start]: {
     request: ComponentIdRequest;
     response: WasRunningResponse;
   };
-  [ScriptRequestType.Script_Stop]: {
+  [ScriptCommand.Stop]: {
     request: ComponentIdRequest;
     response: WasRunningResponse;
   };
 
-  [ScriptRequestType.Script_Delete]: {
+  [ScriptCommand.Delete]: {
     request: ComponentIdRequest;
     response: null;
   };
-  [ScriptRequestType.Script_Eval]: {
+  [ScriptCommand.Eval]: {
     request: ComponentIdRequest;
     response: { result: unknown };
   };
 
-  [ScriptRequestType.Script_PutCode]: {
+  [ScriptCommand.PutCode]: {
     request: ScriptPutCodeRequest;
     response: ScriptPutCodeResponse;
   };
 
-  [ScriptRequestType.Script_Create]: {
+  [ScriptCommand.Create]: {
     request: ScriptCreateRequest;
     response: ScriptCreateResponse;
   };

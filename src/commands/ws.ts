@@ -4,24 +4,25 @@ import {
   WsGetStatusResponse,
   RestartRequiredResponse,
 } from '@sebastianlandgraf/shelly-models';
-export enum WsRequestType {
-  'Ws_GetStatus' = 'Ws.GetStatus',
-  'Ws_GetConfig' = 'Ws.GetConfig',
-  'Ws_SetConfig' = 'Ws.SetConfig',
+
+export enum WsCommand {
+  GetStatus = 'Ws.GetStatus',
+  GetConfig = 'Ws.GetConfig',
+  SetConfig = 'Ws.SetConfig',
 }
 
 export type WsCommandTypes = {
-  [WsRequestType.Ws_GetConfig]: {
+  [WsCommand.GetConfig]: {
     request: unknown;
     response: WsGetConfigResponse;
   };
 
-  [WsRequestType.Ws_SetConfig]: {
+  [WsCommand.SetConfig]: {
     request: WsSetConfigRequest;
     response: RestartRequiredResponse;
   };
 
-  [WsRequestType.Ws_GetStatus]: {
+  [WsCommand.GetStatus]: {
     request: unknown;
     response: WsGetStatusResponse;
   };

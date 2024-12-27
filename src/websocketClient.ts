@@ -12,7 +12,15 @@ export type WsMessage = BaseResponse & {
 export class WebsocketClient extends EventEmitter {
   private ws?: WebSocket;
   private msgCounter = 0;
-  connected = false;
+  private _connected = false;
+
+  public get connected(): boolean {
+    return this._connected;
+  }
+
+  public get wsState(): number| undefined {
+    return this.ws?.readyState
+  }
 
   constructor(
     public readonly baseUrl: URL,
@@ -27,32 +35,39 @@ export class WebsocketClient extends EventEmitter {
     const wsurl = `ws://${this.baseUrl.host}/rpc`;
     this.ws = new WebSocket(wsurl);
 
-    this.ws.onerror = (event): void => {
-      this.emit('log', { level: 'error', message: event.message });
-      //this.logger.error(event.message);
-      this.connected = false;
-      //this.emit('error', event);
-    };
-    this.ws.on('open', () => {
-      this.connected = true;
-      //this.logger.info('ws open');
-      this.emit('open');
-    });
-    this.ws.on('ping', () => {
-      try {
-        if (this.ws?.readyState === WebSocket.OPEN) {
-          this.ws?.pong();
-        }
-      } catch (e: unknown) {
-        //this.logger.error(e);
-      }
-    });
-
+    this.ws.on('error', this.OnError.bind(this));
+    this.ws.on('open', this.OnOpen.bind(this));
+    this.ws.on('ping', this.OnPing.bind(this));
     this.ws.on('close', this.OnWsClose.bind(this));
     this.ws.on('message', this.OnWsMessage.bind(this));
   }
 
-  OnWsMessage(event: { toString: () => string }): void {
+  private OnError(err: Error): void {
+    this.emit('log', { level: 'error', message: err.message });
+    this._connected = false;
+  }
+
+  private OnOpen(): void {
+    this._connected = true;
+    this.emit('log', { level: 'info', message: 'websocket connected' });
+  }
+
+  private OnPing(): void {
+    try {
+      if (this.ws?.readyState === WebSocket.OPEN) {
+        this.ws?.pong();
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        this.emit('log', { level: 'error', message: err.message });
+      }
+      else {
+        this.emit('log', { level: 'error', message: 'unknown error' });
+      }
+    }
+  }
+
+  private OnWsMessage(event: { toString: () => string }): void {
     const ev = JSON.parse(event.toString());
     //this.logger.debug(ev);
 
@@ -61,12 +76,12 @@ export class WebsocketClient extends EventEmitter {
     if (ev.method === 'NotifyStatus') this.emit('NotifyStatus', ev);
   }
 
-  OnWsClose(code: unknown, reason: Buffer): void {
+  private OnWsClose(code: unknown, reason: Buffer): void {
     this.emit('log', {
       level: 'info',
       message: `websocket closed with code: ${code}, reason: ${reason.toString()}`,
     });
-    this.connected = false;
+    this._connected = false;
     setTimeout(() => {
       this.connect();
     }, 10000);
@@ -74,7 +89,11 @@ export class WebsocketClient extends EventEmitter {
 
   private send(req: BaseRequest): number {
     if (req.retries && req.retries > 10) {
-      this.emit('message', { id: req.id, error: 'send retries exeeded 10' });
+      this.emit('log', {
+        level: 'error',
+        id: req.id,
+        error: 'send retries exeeded 10',
+      });
       return -1;
     }
 
@@ -92,12 +111,23 @@ export class WebsocketClient extends EventEmitter {
 
     const msg = { src: this.clientId, ...req };
     const msgString = JSON.stringify(msg);
-    //this.logger.debug(msg);
 
     try {
       this.ws?.send(msgString);
     } catch (e: unknown) {
-      //this.logger.error(e);
+      if (e instanceof Error) {
+        this.emit('log', {
+          level: 'error',
+          message: e.message,
+          id: req.id,
+        });
+      } else {
+        this.emit('log', {
+          level: 'error',
+          message: 'unknown error',
+          id: req.id,
+        });
+      }
       return -1;
     }
     return req.id;
@@ -106,14 +136,25 @@ export class WebsocketClient extends EventEmitter {
   public async request(req: BaseRequest): Promise<BaseResponse> {
     //this.logger.debug(req);
 
-    if (this.connected) {
+    if (this._connected) {
       return new Promise<BaseResponse>((resolve) => {
         const msgId = this.send(req);
+        if (msgId === -1) {
+          resolve({
+            result: null,
+            id: msgId,
+            error: 'not connected',
+          });
+        }
         const callback = (message: WsMessage) => {
           if (message.id === msgId) {
             this.removeListener('message', callback);
             if (message.error) {
-              //this.logger.error(message.error);
+              this.emit('log', {
+                level: 'error',
+                message: message.id,
+                error: message.error,
+              });
             }
             resolve(message);
           }
@@ -121,7 +162,6 @@ export class WebsocketClient extends EventEmitter {
         this.on('message', callback);
       });
     }
-
     throw 'not connected';
   }
 }

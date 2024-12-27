@@ -6,22 +6,23 @@ import {
 } from '@sebastianlandgraf/shelly-models';
 
 export enum SysRequestType {
-  'Sys_GetStatus' = 'Sys.GetStatus',
-  'Sys_GetConfig' = 'Sys.GetConfig',
-  'Sys_SetConfig' = 'Sys.SetConfig',
+  GetStatus = 'Sys.GetStatus',
+  GetConfig = 'Sys.GetConfig',
+  SetConfig = 'Sys.SetConfig',
 }
+
 export type SysCommandTypes = {
-  [SysRequestType.Sys_GetConfig]: {
+  [SysRequestType.GetConfig]: {
     request: undefined;
     response: SysGetConfigResponse;
   };
 
-  [SysRequestType.Sys_SetConfig]: {
+  [SysRequestType.SetConfig]: {
     request: SysSetConfigRequest;
     response: RestartRequiredResponse;
   };
 
-  [SysRequestType.Sys_GetStatus]: {
+  [SysRequestType.GetStatus]: {
     request: undefined;
     response: SysGetStatusResponse;
   };

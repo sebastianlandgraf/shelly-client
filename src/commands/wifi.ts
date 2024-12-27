@@ -6,29 +6,29 @@ import {
   RestartRequiredResponse,
 } from '@sebastianlandgraf/shelly-models';
 
-export enum WifiRequestType {
-  'Wifi_GetStatus' = 'Wifi.GetStatus',
-  'Wifi_GetConfig' = 'Wifi.GetConfig',
-  'Wifi_SetConfig' = 'Wifi.SetConfig',
-  'WiFi_ListAPClients' = 'WiFi.ListAPClients',
+export enum WifiCommand {
+  GetStatus = 'Wifi.GetStatus',
+  GetConfig = 'Wifi.GetConfig',
+  SetConfig = 'Wifi.SetConfig',
+  ListApClients = 'WiFi.ListApClients',
 }
 
 export type WifiCommandTypes = {
-  [WifiRequestType.Wifi_GetConfig]: {
+  [WifiCommand.GetConfig]: {
     request: undefined;
     response: WifiGetConfigResponse;
   };
 
-  [WifiRequestType.Wifi_SetConfig]: {
+  [WifiCommand.SetConfig]: {
     request: WifiSetConfigRequest;
     response: RestartRequiredResponse;
   };
 
-  [WifiRequestType.Wifi_GetStatus]: {
+  [WifiCommand.GetStatus]: {
     request: undefined;
     response: WifiGetStatusResponse;
   };
-  [WifiRequestType.WiFi_ListAPClients]: {
+  [WifiCommand.ListApClients]: {
     request: undefined;
     response: WifiListApClientsResponse;
   };

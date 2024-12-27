@@ -4,24 +4,25 @@ import {
   BleSetConfigRequest,
   RestartRequiredResponse,
 } from '@sebastianlandgraf/shelly-models';
-export enum BleRequestType {
-  'Ble_GetStatus' = 'Ble.GetStatus',
-  'Ble_GetConfig' = 'Ble.GetConfig',
-  'Ble_SetConfig' = 'Ble.SetConfig',
+
+export enum BleRequestCommand {
+  GetStatus = 'Ble.GetStatus',
+  GetConfig = 'Ble.GetConfig',
+  SetConfig = 'Ble.SetConfig',
 }
 
 export type BleCommandTypes = {
-  [BleRequestType.Ble_GetConfig]: {
+  [BleRequestCommand.GetConfig]: {
     request: unknown;
     response: BleGetConfigResponse;
   };
 
-  [BleRequestType.Ble_GetStatus]: {
+  [BleRequestCommand.GetStatus]: {
     request: unknown;
     response: BleGetStatusResponse;
   };
 
-  [BleRequestType.Ble_SetConfig]: {
+  [BleRequestCommand.SetConfig]: {
     request: BleSetConfigRequest;
     response: RestartRequiredResponse;
   };

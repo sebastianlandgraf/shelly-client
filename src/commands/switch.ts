@@ -9,35 +9,35 @@ import {
 } from '@sebastianlandgraf/shelly-models';
 
 export enum SwitchRequestType {
-  'Switch_GetStatus' = 'Switch.GetStatus',
-  'Switch_GetConfig' = 'Switch.GetConfig',
-  'Switch_SetConfig' = 'Switch.SetConfig',
-  'Switch_Set' = 'Switch.Set',
-  'Switch_Toggle' = 'Switch.Toggle',
+  GetStatus = 'Switch.GetStatus',
+  GetConfig = 'Switch.GetConfig',
+  SetConfig = 'Switch.SetConfig',
+  Set = 'Switch.Set',
+  Toggle = 'Switch.Toggle',
 }
 
-export type SwitchCommandTypes = {
-  [SwitchRequestType.Switch_GetConfig]: {
+export type SwitchCommand = {
+  [SwitchRequestType.GetConfig]: {
     request: ComponentIdRequest;
     response: SwitchGetConfigResponse;
   };
 
-  [SwitchRequestType.Switch_GetStatus]: {
+  [SwitchRequestType.GetStatus]: {
     request: ComponentIdRequest;
     response: SwitchGetStatusResponse;
   };
 
-  [SwitchRequestType.Switch_SetConfig]: {
+  [SwitchRequestType.SetConfig]: {
     request: SwitchSetConfigRequest;
     response: RestartRequiredResponse;
   };
 
-  [SwitchRequestType.Switch_Set]: {
+  [SwitchRequestType.Set]: {
     request: SwitchSetRequest;
     response: SwitchSetResponse;
   };
 
-  [SwitchRequestType.Switch_Toggle]: {
+  [SwitchRequestType.Toggle]: {
     request: ComponentIdRequest;
     response: SwitchSetResponse;
   };
